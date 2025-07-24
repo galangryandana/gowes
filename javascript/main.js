@@ -1,8 +1,6 @@
-// =====================================================================
-// GANTI DENGAN URL APLIKASI WEB DARI GOOGLE APPS SCRIPT ANDA
+// PASTIKAN ANDA MENGGUNAKAN URL DARI DEPLOYMENT TERBARU ANDA
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyUBBwv1mF1q_Tt4czCKgdWNFJWAqXwPUlom0ZvGRzpsDv07K8uOV6PdZTSNnP_Vgmw/exec";
-// =====================================================================
+  "https://script.google.com/macros/s/AKfycbxWGnCdRtm9NYZgYHbwx28axnEIGowDA20fmGIc8sM2bPceRQ9ZPwfuQOzX7nsVc5Eb/exec";
 
 document.addEventListener("DOMContentLoaded", function () {
   const formPendaftaran = document.getElementById("form-pendaftaran");
@@ -58,11 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.file = fileData;
       formData.type = file.type;
 
+      // --- PERUBAHAN KUNCI ADA DI SINI ---
       fetch(SCRIPT_URL, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
-        headers: { "Content-Type": "application/json" },
+        // Mengirim sebagai text/plain untuk menghindari preflight CORS
+        headers: { "Content-Type": "text/plain" },
         body: JSON.stringify(formData),
         redirect: "follow",
       })
