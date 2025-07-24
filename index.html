@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pendaftaran Gowes Seru 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body class="flex items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-lg card p-6 md:p-10">
+      <div class="text-center mb-8">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-16 w-16 mx-auto text-blue-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M18.364 5.636a9 9 0 11-12.728 0 9 9 0 0112.728 0z"
+          />
+        </svg>
+        <h1 class="text-3xl font-bold text-gray-800 mt-4">
+          Pendaftaran Gowes 2025
+        </h1>
+        <p class="text-gray-500 mt-1">Scan, Isi Data, Bayar, dan Siap Gowes!</p>
+      </div>
+
+      <div id="form-pendaftaran" class="fade-in">
+        <div class="step">
+          <div class="step-circle step-circle-active">1</div>
+          <h2 class="text-xl font-semibold text-gray-700">Isi Data Diri</h2>
+        </div>
+        <form id="registration-form" class="space-y-4">
+          <div>
+            <label
+              for="nama"
+              class="block text-sm font-medium text-gray-600 mb-1"
+              >Nama Lengkap</label
+            ><input
+              type="text"
+              id="nama"
+              name="nama"
+              class="form-input"
+              placeholder="Nama sesuai KTP"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="telepon"
+              class="block text-sm font-medium text-gray-600 mb-1"
+              >No. Telepon (WhatsApp Aktif)</label
+            ><input
+              type="tel"
+              id="telepon"
+              name="telepon"
+              class="form-input"
+              placeholder="08123456xxxx"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="dob"
+              class="block text-sm font-medium text-gray-600 mb-1"
+              >Tanggal Lahir</label
+            ><input
+              type="date"
+              id="dob"
+              name="dob"
+              class="form-input"
+              required
+            />
+          </div>
+          <div class="pt-4">
+            <button type="submit" class="btn-primary">
+              Lanjutkan ke Pembayaran
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="info-pembayaran" class="hidden fade-in">
+        <div class="step">
+          <div class="step-circle step-circle-active">2</div>
+          <h2 class="text-xl font-semibold text-gray-700">
+            Lakukan Pembayaran
+          </h2>
+        </div>
+        <div class="mt-6">
+          <h3 class="font-semibold text-gray-800 text-center">
+            Scan QRIS untuk Membayar Biaya Pendaftaran
+          </h3>
+          <p class="text-sm text-gray-500 mt-1 text-center">
+            Sebesar <strong>Rp 75.000,-</strong>
+          </p>
+          <div class="flex justify-center my-4">
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://example.com/qris-payment-link"
+              alt="[Gambar Kode QRIS Pembayaran]"
+              class="rounded-lg shadow-lg"
+            />
+          </div>
+          <p class="text-center text-xs text-gray-500">
+            Mendukung semua aplikasi pembayaran.
+          </p>
+        </div>
+        <div class="mt-8">
+          <div class="step">
+            <div class="step-circle step-circle-active">3</div>
+            <h2 class="text-xl font-semibold text-gray-700">Unggah Bukti</h2>
+          </div>
+          <div class="file-input-wrapper">
+            <button class="file-input-button">
+              <span id="file-label">Pilih File Bukti Pembayaran</span></button
+            ><input
+              type="file"
+              id="upload-bukti"
+              accept="image/png, image/jpeg, image/jpg"
+              required
+            />
+          </div>
+          <p id="file-name" class="text-xs text-gray-500 mt-2 text-center">
+            Maksimal 2MB (JPG, PNG).
+          </p>
+          <button id="konfirmasi-btn" class="btn-primary mt-4" disabled>
+            Kirim Bukti & Selesaikan Pendaftaran
+          </button>
+        </div>
+      </div>
+
+      <div id="konfirmasi-akhir" class="hidden fade-in text-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-20 w-20 mx-auto text-green-500"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <h2 class="text-3xl font-bold text-gray-800 mt-4">
+          Pendaftaran Berhasil!
+        </h2>
+        <p class="text-gray-600">Nomor Registrasi Anda adalah:</p>
+        <p
+          id="nomor-registrasi"
+          class="text-5xl font-extrabold text-blue-600 my-2 tracking-widest"
+        >
+          0000
+        </p>
+        <p class="text-gray-600 mt-2 max-w-sm mx-auto">
+          Terima kasih! Data Anda telah kami terima. E-Ticket akan dikirim ke
+          WhatsApp Anda setelah verifikasi.
+        </p>
+        <button
+          onclick="window.location.reload()"
+          class="mt-8 bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition"
+        >
+          Daftar Peserta Lain
+        </button>
+      </div>
+    </div>
+
+    <script src="javascript/main.js"></script>
+  </body>
+</html>
