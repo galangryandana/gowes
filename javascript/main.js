@@ -1,7 +1,7 @@
 // =====================================================================
 // GANTI DENGAN URL APLIKASI WEB DARI GOOGLE APPS SCRIPT ANDA
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzRwoxeVEvBTi_0SEck5QIZ4oAp_s9uc_AUusixxZ8D3rZb79odGYujs8OPnpr5R7SF/exec";
+  "https://script.google.com/macros/s/AKfycbyNlXCamYy-JS53dPraGALKsadZojXQVgdTK7uaqTx_mqzeC1rJWNnCmZxqML7g2XvI/exec";
 // =====================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
