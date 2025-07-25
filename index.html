@@ -38,13 +38,15 @@
         ring-offset: 2px;
       }
       .btn-primary {
-        width: 100%;
         background-color: #2563eb;
         color: white;
         font-weight: 700;
         padding: 0.875rem 1rem;
         border-radius: 0.5rem;
         transition: background-color 0.3s, transform 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
       .btn-primary:hover {
         background-color: #1d4ed8;
@@ -55,6 +57,23 @@
         cursor: not-allowed;
         transform: none;
       }
+      /* --- CSS BARU DITAMBAHKAN --- */
+      .btn-secondary {
+        background-color: #e5e7eb;
+        color: #374151;
+        font-weight: 600;
+        padding: 0.875rem 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.3s, transform 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .btn-secondary:hover {
+        background-color: #d1d5db;
+        transform: translateY(-2px);
+      }
+      /* --- AKHIR DARI CSS BARU --- */
       .file-input-wrapper {
         position: relative;
         overflow: hidden;
@@ -207,7 +226,11 @@
             />
           </div>
           <div class="pt-4">
-            <button type="submit" id="submit-initial-data" class="btn-primary">
+            <button
+              type="submit"
+              id="submit-initial-data"
+              class="btn-primary w-full"
+            >
               Lanjut ke Pembayaran Donasi PMI
             </button>
           </div>
@@ -246,7 +269,9 @@
           </div>
         </div>
         <div class="mt-6">
-          <button id="btn-lanjut-upload" class="btn-primary">Lanjut</button>
+          <button id="btn-lanjut-upload" class="btn-primary w-full">
+            Lanjut
+          </button>
         </div>
       </div>
 
@@ -271,9 +296,23 @@
         <p id="file-name" class="text-xs text-gray-500 mt-2 text-center">
           Maksimal 2MB (JPG, PNG).
         </p>
-        <button id="konfirmasi-btn" class="btn-primary mt-6" disabled>
-          Kirim Bukti & Selesaikan Pendaftaran
-        </button>
+
+        <div class="mt-6 flex flex-col-reverse sm:flex-row gap-3">
+          <button
+            type="button"
+            id="btn-kembali"
+            class="btn-secondary w-full sm:w-auto"
+          >
+            Kembali
+          </button>
+          <button
+            id="konfirmasi-btn"
+            class="btn-primary w-full sm:w-auto flex-grow"
+            disabled
+          >
+            Kirim Bukti & Selesaikan Pendaftaran
+          </button>
+        </div>
       </div>
 
       <div id="konfirmasi-akhir" class="hidden fade-in text-center">
@@ -309,7 +348,7 @@
         <p class="text-gray-600 mt-2 max-w-sm mx-auto">
           Nomor peserta undian dapat ditukarkan H-1 pada tanggal 15 Agustus 2025
           pukul 15.00 - 21.00 di Tenda Registrasi Stadion Kraksaan dengan
-          menunjukkan bukti pembayaran QRIS.Informasi lainnya hubungi
+          menunjukkan bukti pembayaran QRIS. Informasi lainnya hubungi
           082233444460
         </p>
       </div>
@@ -339,6 +378,10 @@
           "nomor-registrasi-final"
         );
 
+        // --- JAVASCRIPT BARU DITAMBAHKAN ---
+        const btnKembali = document.getElementById("btn-kembali");
+        // --- AKHIR DARI JAVASCRIPT BARU ---
+
         let userRegistrationData = {};
 
         registrationForm.addEventListener("submit", function (event) {
@@ -347,7 +390,6 @@
           submitInitialBtn.innerHTML =
             '<span class="loader"></span>&nbsp; Memproses...';
 
-          // **** DATA TANGGAL LAHIR DIHAPUS DARI SINI ****
           const formData = {
             action: "register",
             nama: document.getElementById("nama").value,
@@ -387,6 +429,13 @@
           infoPembayaran.classList.add("hidden");
           uploadSection.classList.remove("hidden");
         });
+
+        // --- JAVASCRIPT BARU DITAMBAHKAN ---
+        btnKembali.addEventListener("click", () => {
+          uploadSection.classList.add("hidden");
+          infoPembayaran.classList.remove("hidden");
+        });
+        // --- AKHIR DARI JAVASCRIPT BARU ---
 
         uploadBuktiInput.addEventListener("change", function (event) {
           if (event.target.files.length > 0) {
