@@ -202,7 +202,7 @@
               id="alamat"
               name="alamat"
               class="form-input"
-              placeholder="Contoh: Jl. Pahlawan No. 10, RT 01/RW 02, Kel. Kebonsari, Kec. Sumbersari, Jember"
+              placeholder="Contoh: Jl. Krakatau No. 10, RT 06/RW 02, Desa Krejengan, Kraksaan, Kab. Probolinggo"
               required
               rows="3"
             ></textarea>
@@ -219,20 +219,6 @@
               name="telepon"
               class="form-input"
               placeholder="08123456xxxx"
-              required
-            />
-          </div>
-          <div>
-            <label
-              for="dob"
-              class="block text-sm font-medium text-gray-600 mb-1"
-              >Tanggal Lahir</label
-            >
-            <input
-              type="date"
-              id="dob"
-              name="dob"
-              class="form-input"
               required
             />
           </div>
@@ -269,7 +255,7 @@
           </p>
           <div class="flex justify-center my-4">
             <img
-              src="images/qr-pembayaran.png"
+              src="images/qr-pembayaran.jpeg"
               alt="[Gambar Kode QRIS Pembayaran]"
               class="rounded-lg shadow-lg"
             />
@@ -339,7 +325,7 @@
 
     <script>
       const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbzlvp-Sg2b-lc2W6E_-2awVlbCJwtaywQLTOTQScvQxqYRqX2-RwXed7z_UG2Ndow/exec";
+        "https://script.google.com/macros/s/AKfycbwjNuneeTzLlq5mdFDK77d2Fry5EnxWd6eLBA_F--tqA2uhKhtlEOoSLCl9c5HKkBvG/exec";
 
       document.addEventListener("DOMContentLoaded", function () {
         const formPendaftaran = document.getElementById("form-pendaftaran");
@@ -369,13 +355,12 @@
           submitInitialBtn.innerHTML =
             '<span class="loader"></span>&nbsp; Memproses...';
 
-          // **** MENGAMBIL DATA DARI INPUT ALAMAT ****
+          // **** DATA TANGGAL LAHIR DIHAPUS DARI SINI ****
           const formData = {
             action: "register",
             nama: document.getElementById("nama").value,
-            alamat: document.getElementById("alamat").value, // Baris ini ditambahkan
+            alamat: document.getElementById("alamat").value,
             telepon: document.getElementById("telepon").value,
-            dob: document.getElementById("dob").value,
           };
 
           fetch(SCRIPT_URL, {
@@ -402,7 +387,7 @@
             })
             .finally(() => {
               submitInitialBtn.disabled = false;
-              submitInitialBtn.textContent = "Lanjutkan ke Pembayaran";
+              submitInitialBtn.textContent = "Lanjut ke Pembayaran Donasi PMI";
             });
         });
 
