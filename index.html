@@ -55,18 +55,6 @@
         cursor: not-allowed;
         transform: none;
       }
-      .btn-secondary {
-        width: 100%;
-        background-color: #e5e7eb;
-        color: #1f2937;
-        font-weight: 600;
-        padding: 0.875rem 1rem;
-        border-radius: 0.5rem;
-        transition: background-color 0.3s;
-      }
-      .btn-secondary:hover {
-        background-color: #d1d5db;
-      }
       .file-input-wrapper {
         position: relative;
         overflow: hidden;
@@ -128,10 +116,6 @@
       .step-circle-active {
         background-color: #2563eb;
         color: white;
-      }
-      .step-circle-inactive {
-        background-color: #e5e7eb;
-        color: #4b5563;
       }
       .loader {
         border: 4px solid #f3f3f3;
@@ -270,7 +254,7 @@
             />
           </div>
         </div>
-        <div class="mt-6 grid gap-4">
+        <div class="mt-6">
           <button id="btn-lanjut-upload" class="btn-primary">Lanjut</button>
         </div>
       </div>
@@ -345,7 +329,7 @@
         // --- FORM & BUTTONS ---
         const registrationForm = document.getElementById("registration-form");
         const submitInitialBtn = document.getElementById("submit-initial-data");
-        const btnKembali = document.getElementById("btn-kembali");
+        // The "btn-kembali" variable is no longer needed
         const btnLanjutUpload = document.getElementById("btn-lanjut-upload");
         const uploadBuktiInput = document.getElementById("upload-bukti");
         const konfirmasiBtn = document.getElementById("konfirmasi-btn");
@@ -410,10 +394,7 @@
         });
 
         // --- STEP 2: Navigation from Payment Info ---
-        btnKembali.addEventListener("click", () => {
-          infoPembayaran.classList.add("hidden");
-          formPendaftaran.classList.remove("hidden");
-        });
+        // The event listener for the back button is removed as the button is gone.
 
         btnLanjutUpload.addEventListener("click", () => {
           infoPembayaran.classList.add("hidden");
