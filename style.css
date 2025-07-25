@@ -766,6 +766,11 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f0f4f8;
+}
+
 .card {
   background-color: white;
   border-radius: 1.5rem;
