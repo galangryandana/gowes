@@ -162,20 +162,26 @@
           />
         </svg>
         <h1 class="text-3xl font-bold text-gray-800 mt-4">Pendaftaran Gowes</h1>
-        <p class="text-gray-500 mt-1">Scan, Isi Data, Bayar, dan Siap Gowes!</p>
+        <p class="text-gray-500 mt-1">Pekan QRIS Nasional 2025</p>
+        <p class="text-gray-500 mt-1">Stadion Kraksaan, 16 Agustus 2025</p>
+        <p class="text-gray-500 mt-1">
+          Scan, Isi Data, Donasi PMI, dan Siap Gowes!
+        </p>
       </div>
 
       <div id="form-pendaftaran" class="fade-in">
         <div class="step">
           <div class="step-circle step-circle-active">1</div>
-          <h2 class="text-xl font-semibold text-gray-700">Isi Data Diri</h2>
+          <h2 class="text-xl font-semibold text-gray-700">
+            Isi Data Diri (Peserta)
+          </h2>
         </div>
         <form id="registration-form" class="space-y-4">
           <div>
             <label
               for="nama"
               class="block text-sm font-medium text-gray-600 mb-1"
-              >Nama Lengkap</label
+              >Nama Lengkap (Sesuai KTP)</label
             >
             <input
               type="text"
@@ -185,6 +191,21 @@
               placeholder="Nama sesuai KTP"
               required
             />
+          </div>
+          <div>
+            <label
+              for="alamat"
+              class="block text-sm font-medium text-gray-600 mb-1"
+              >Alamat (Sesuai KTP)</label
+            >
+            <textarea
+              id="alamat"
+              name="alamat"
+              class="form-input"
+              placeholder="Contoh: Jl. Pahlawan No. 10, RT 01/RW 02, Kel. Kebonsari, Kec. Sumbersari, Jember"
+              required
+              rows="3"
+            ></textarea>
           </div>
           <div>
             <label
@@ -217,7 +238,7 @@
           </div>
           <div class="pt-4">
             <button type="submit" id="submit-initial-data" class="btn-primary">
-              Lanjutkan ke Pembayaran
+              Lanjut ke Pembayaran Donasi PMI
             </button>
           </div>
         </form>
@@ -309,32 +330,27 @@
           0000
         </p>
         <p class="text-gray-600 mt-2 max-w-sm mx-auto">
-          Terima kasih! Data Anda telah kami terima. E-Ticket akan dikirim ke
-          WhatsApp Anda setelah verifikasi.
+          Terima kasih telah mendaftar! Nomor peserta dapat ditukarkan pada
+          tanggal 14 - 15 Agustus 2025 di Tenda Registrasi Stadion Kraksaan
+          dengan menunjukkan bukti pembayaran QRIS
         </p>
       </div>
     </div>
 
     <script>
       const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbwVc3A21WH4jw2ZtrGkLGrXgMAp7vKDDRBr1GAysl-hW_G_sBj5eSyE5z0YZXrTAUvM/exec";
+        "https://script.google.com/macros/s/AKfycbzlvp-Sg2b-lc2W6E_-2awVlbCJwtaywQLTOTQScvQxqYRqX2-RwXed7z_UG2Ndow/exec";
 
       document.addEventListener("DOMContentLoaded", function () {
-        // --- SECTION VIEWS ---
         const formPendaftaran = document.getElementById("form-pendaftaran");
         const infoPembayaran = document.getElementById("info-pembayaran");
         const uploadSection = document.getElementById("upload-section");
         const konfirmasiAkhir = document.getElementById("konfirmasi-akhir");
-
-        // --- FORM & BUTTONS ---
         const registrationForm = document.getElementById("registration-form");
         const submitInitialBtn = document.getElementById("submit-initial-data");
-        // The "btn-kembali" variable is no longer needed
         const btnLanjutUpload = document.getElementById("btn-lanjut-upload");
         const uploadBuktiInput = document.getElementById("upload-bukti");
         const konfirmasiBtn = document.getElementById("konfirmasi-btn");
-
-        // --- DYNAMIC DISPLAYS ---
         const nomorRegistrasiDisplay = document.getElementById(
           "nomor-registrasi-display"
         );
@@ -347,16 +363,17 @@
 
         let userRegistrationData = {};
 
-        // --- STEP 1: Submit Initial Data ---
         registrationForm.addEventListener("submit", function (event) {
           event.preventDefault();
           submitInitialBtn.disabled = true;
           submitInitialBtn.innerHTML =
             '<span class="loader"></span>&nbsp; Memproses...';
 
+          // **** MENGAMBIL DATA DARI INPUT ALAMAT ****
           const formData = {
             action: "register",
             nama: document.getElementById("nama").value,
+            alamat: document.getElementById("alamat").value, // Baris ini ditambahkan
             telepon: document.getElementById("telepon").value,
             dob: document.getElementById("dob").value,
           };
@@ -369,13 +386,9 @@
             .then((data) => {
               if (data.result === "success") {
                 userRegistrationData.regNumber = data.regNumber;
-
-                // Update payment info screen
                 nomorRegistrasiDisplay.textContent = data.regNumber;
                 const paymentAmount = parseInt(data.regNumber, 10);
                 nominalPembayaran.textContent = `Rp ${paymentAmount},-`;
-
-                // Move to next step
                 formPendaftaran.classList.add("hidden");
                 infoPembayaran.classList.remove("hidden");
               } else {
@@ -393,15 +406,11 @@
             });
         });
 
-        // --- STEP 2: Navigation from Payment Info ---
-        // The event listener for the back button is removed as the button is gone.
-
         btnLanjutUpload.addEventListener("click", () => {
           infoPembayaran.classList.add("hidden");
           uploadSection.classList.remove("hidden");
         });
 
-        // --- STEP 3: Handle File Upload & Final Submission ---
         uploadBuktiInput.addEventListener("change", function (event) {
           if (event.target.files.length > 0) {
             const file = event.target.files[0];
@@ -430,7 +439,7 @@
           reader.readAsDataURL(file);
 
           reader.onload = function () {
-            const fileData = reader.result.split(",")[1]; // Get Base64 part
+            const fileData = reader.result.split(",")[1];
 
             const finalData = {
               action: "upload",
