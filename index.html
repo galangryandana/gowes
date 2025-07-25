@@ -55,6 +55,18 @@
         cursor: not-allowed;
         transform: none;
       }
+      .btn-secondary {
+        width: 100%;
+        background-color: #e5e7eb;
+        color: #1f2937;
+        font-weight: 600;
+        padding: 0.875rem 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.3s;
+      }
+      .btn-secondary:hover {
+        background-color: #d1d5db;
+      }
       .file-input-wrapper {
         position: relative;
         overflow: hidden;
@@ -138,6 +150,9 @@
           transform: rotate(360deg);
         }
       }
+      .hidden {
+        display: none;
+      }
     </style>
   </head>
   <body class="flex items-center justify-center min-h-screen p-4">
@@ -177,7 +192,8 @@
               for="nama"
               class="block text-sm font-medium text-gray-600 mb-1"
               >Nama Lengkap</label
-            ><input
+            >
+            <input
               type="text"
               id="nama"
               name="nama"
@@ -191,7 +207,8 @@
               for="telepon"
               class="block text-sm font-medium text-gray-600 mb-1"
               >No. Telepon (WhatsApp Aktif)</label
-            ><input
+            >
+            <input
               type="tel"
               id="telepon"
               name="telepon"
@@ -205,7 +222,8 @@
               for="dob"
               class="block text-sm font-medium text-gray-600 mb-1"
               >Tanggal Lahir</label
-            ><input
+            >
+            <input
               type="date"
               id="dob"
               name="dob"
@@ -214,7 +232,7 @@
             />
           </div>
           <div class="pt-4">
-            <button type="submit" class="btn-primary">
+            <button type="submit" id="submit-initial-data" class="btn-primary">
               Lanjutkan ke Pembayaran
             </button>
           </div>
@@ -228,12 +246,21 @@
             Lakukan Pembayaran
           </h2>
         </div>
-        <div class="mt-6">
-          <h3 class="font-semibold text-gray-800 text-center">
+        <div class="mt-4 text-center">
+          <p class="text-gray-600">Nomor Registrasi Anda adalah:</p>
+          <p
+            id="nomor-registrasi-display"
+            class="text-4xl font-extrabold text-blue-600 my-2 tracking-widest"
+          >
+            0000
+          </p>
+          <h3 class="font-semibold text-gray-800 mt-4">
             Scan QRIS untuk Membayar Biaya Pendaftaran
           </h3>
-          <p class="text-sm text-gray-500 mt-1 text-center">
-            Sebesar <strong>Rp 75.000,-</strong>
+          <p class="text-sm text-gray-500 mt-1">
+            Sebesar
+            <strong id="nominal-pembayaran" class="text-lg">Rp 0,-</strong>
+            (sesuai nomor registrasi)
           </p>
           <div class="flex justify-center my-4">
             <img
@@ -243,28 +270,35 @@
             />
           </div>
         </div>
-        <div class="mt-8">
-          <div class="step">
-            <div class="step-circle step-circle-active">3</div>
-            <h2 class="text-xl font-semibold text-gray-700">Unggah Bukti</h2>
-          </div>
-          <div class="file-input-wrapper">
-            <button class="file-input-button">
-              <span id="file-label">Pilih File Bukti Pembayaran</span></button
-            ><input
-              type="file"
-              id="upload-bukti"
-              accept="image/png, image/jpeg, image/jpg"
-              required
-            />
-          </div>
-          <p id="file-name" class="text-xs text-gray-500 mt-2 text-center">
-            Maksimal 2MB (JPG, PNG).
-          </p>
-          <button id="konfirmasi-btn" class="btn-primary mt-4" disabled>
-            Kirim Bukti & Selesaikan Pendaftaran
-          </button>
+        <div class="mt-6 grid gap-4">
+          <button id="btn-lanjut-upload" class="btn-primary">Lanjut</button>
         </div>
+      </div>
+
+      <div id="upload-section" class="hidden fade-in">
+        <div class="step">
+          <div class="step-circle step-circle-active">3</div>
+          <h2 class="text-xl font-semibold text-gray-700">
+            Unggah Bukti Pembayaran
+          </h2>
+        </div>
+        <div class="file-input-wrapper mt-4">
+          <button class="file-input-button">
+            <span id="file-label">Pilih File Bukti Pembayaran</span>
+          </button>
+          <input
+            type="file"
+            id="upload-bukti"
+            accept="image/png, image/jpeg, image/jpg"
+            required
+          />
+        </div>
+        <p id="file-name" class="text-xs text-gray-500 mt-2 text-center">
+          Maksimal 2MB (JPG, PNG).
+        </p>
+        <button id="konfirmasi-btn" class="btn-primary mt-6" disabled>
+          Kirim Bukti & Selesaikan Pendaftaran
+        </button>
       </div>
 
       <div id="konfirmasi-akhir" class="hidden fade-in text-center">
@@ -285,7 +319,7 @@
         </h2>
         <p class="text-gray-600">Nomor Registrasi Anda adalah:</p>
         <p
-          id="nomor-registrasi"
+          id="nomor-registrasi-final"
           class="text-5xl font-extrabold text-blue-600 my-2 tracking-widest"
         >
           0000
@@ -294,43 +328,99 @@
           Terima kasih! Data Anda telah kami terima. E-Ticket akan dikirim ke
           WhatsApp Anda setelah verifikasi.
         </p>
-        <button
-          onclick="window.location.reload()"
-          class="mt-8 bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition"
-        >
-          Daftar Peserta Lain
-        </button>
       </div>
     </div>
 
     <script>
-      // URL SCRIPT ANDA SUDAH DIPERBARUI DI SINI
       const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbyVD9ElxAz6ITundeT0k76SBNAL5eI3BRPl_9spw4NA2XPMJ-f5s4ImQ57QoDiuo2hS/exec";
+        "https://script.google.com/macros/s/AKfycbwVc3A21WH4jw2ZtrGkLGrXgMAp7vKDDRBr1GAysl-hW_G_sBj5eSyE5z0YZXrTAUvM/exec";
 
       document.addEventListener("DOMContentLoaded", function () {
+        // --- SECTION VIEWS ---
         const formPendaftaran = document.getElementById("form-pendaftaran");
         const infoPembayaran = document.getElementById("info-pembayaran");
+        const uploadSection = document.getElementById("upload-section");
         const konfirmasiAkhir = document.getElementById("konfirmasi-akhir");
+
+        // --- FORM & BUTTONS ---
         const registrationForm = document.getElementById("registration-form");
-        const nomorRegistrasiSpan = document.getElementById("nomor-registrasi");
+        const submitInitialBtn = document.getElementById("submit-initial-data");
+        const btnKembali = document.getElementById("btn-kembali");
+        const btnLanjutUpload = document.getElementById("btn-lanjut-upload");
         const uploadBuktiInput = document.getElementById("upload-bukti");
-        const fileNameSpan = document.getElementById("file-name");
-        const fileLabel = document.getElementById("file-label");
         const konfirmasiBtn = document.getElementById("konfirmasi-btn");
 
-        let formData = {};
+        // --- DYNAMIC DISPLAYS ---
+        const nomorRegistrasiDisplay = document.getElementById(
+          "nomor-registrasi-display"
+        );
+        const nominalPembayaran = document.getElementById("nominal-pembayaran");
+        const fileLabel = document.getElementById("file-label");
+        const fileNameSpan = document.getElementById("file-name");
+        const nomorRegistrasiFinal = document.getElementById(
+          "nomor-registrasi-final"
+        );
 
+        let userRegistrationData = {};
+
+        // --- STEP 1: Submit Initial Data ---
         registrationForm.addEventListener("submit", function (event) {
           event.preventDefault();
-          formData.nama = document.getElementById("nama").value;
-          formData.telepon = document.getElementById("telepon").value;
-          formData.dob = document.getElementById("dob").value;
+          submitInitialBtn.disabled = true;
+          submitInitialBtn.innerHTML =
+            '<span class="loader"></span>&nbsp; Memproses...';
 
-          formPendaftaran.classList.add("hidden");
-          infoPembayaran.classList.remove("hidden");
+          const formData = {
+            action: "register",
+            nama: document.getElementById("nama").value,
+            telepon: document.getElementById("telepon").value,
+            dob: document.getElementById("dob").value,
+          };
+
+          fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.result === "success") {
+                userRegistrationData.regNumber = data.regNumber;
+
+                // Update payment info screen
+                nomorRegistrasiDisplay.textContent = data.regNumber;
+                const paymentAmount = parseInt(data.regNumber, 10);
+                nominalPembayaran.textContent = `Rp ${paymentAmount},-`;
+
+                // Move to next step
+                formPendaftaran.classList.add("hidden");
+                infoPembayaran.classList.remove("hidden");
+              } else {
+                throw new Error(
+                  data.message || "Gagal mendapatkan nomor registrasi."
+                );
+              }
+            })
+            .catch((error) => {
+              alert("Terjadi kesalahan: " + error.message);
+            })
+            .finally(() => {
+              submitInitialBtn.disabled = false;
+              submitInitialBtn.textContent = "Lanjutkan ke Pembayaran";
+            });
         });
 
+        // --- STEP 2: Navigation from Payment Info ---
+        btnKembali.addEventListener("click", () => {
+          infoPembayaran.classList.add("hidden");
+          formPendaftaran.classList.remove("hidden");
+        });
+
+        btnLanjutUpload.addEventListener("click", () => {
+          infoPembayaran.classList.add("hidden");
+          uploadSection.classList.remove("hidden");
+        });
+
+        // --- STEP 3: Handle File Upload & Final Submission ---
         uploadBuktiInput.addEventListener("change", function (event) {
           if (event.target.files.length > 0) {
             const file = event.target.files[0];
@@ -357,27 +447,31 @@
 
           const reader = new FileReader();
           reader.readAsDataURL(file);
-          reader.onload = function () {
-            const fileData = reader.result;
-            formData.file = fileData;
-            formData.type = file.type;
 
-            // --- PERUBAHAN KUNCI ADA DI SINI ---
+          reader.onload = function () {
+            const fileData = reader.result.split(",")[1]; // Get Base64 part
+
+            const finalData = {
+              action: "upload",
+              regNumber: userRegistrationData.regNumber,
+              file: fileData,
+              type: file.type,
+            };
+
             fetch(SCRIPT_URL, {
               method: "POST",
-              mode: "no-cors", // Menggunakan mode no-cors
-              cache: "no-cache",
-              headers: { "Content-Type": "text/plain" },
-              body: JSON.stringify(formData),
-              redirect: "follow",
+              body: JSON.stringify(finalData),
             })
-              .then(() => {
-                // Karena mode no-cors, kita tidak bisa membaca respons
-                // Jadi kita asumsikan berhasil dan langsung ke halaman berikutnya
-                // Kita tidak bisa mendapatkan nomor registrasi dari server
-                nomorRegistrasiSpan.textContent = "XXXX"; // Tampilkan placeholder
-                infoPembayaran.classList.add("hidden");
-                konfirmasiAkhir.classList.remove("hidden");
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.result === "success") {
+                  nomorRegistrasiFinal.textContent =
+                    userRegistrationData.regNumber;
+                  uploadSection.classList.add("hidden");
+                  konfirmasiAkhir.classList.remove("hidden");
+                } else {
+                  throw new Error(data.message || "Gagal mengunggah bukti.");
+                }
               })
               .catch((error) => {
                 alert("Gagal mengirim data: " + error.message);
@@ -386,6 +480,7 @@
                   "Kirim Bukti & Selesaikan Pendaftaran";
               });
           };
+
           reader.onerror = function (error) {
             alert("Gagal membaca file: " + error);
             konfirmasiBtn.disabled = false;
