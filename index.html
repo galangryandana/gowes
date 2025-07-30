@@ -13,14 +13,14 @@
     />
   </head>
   <body class="flex items-center justify-center min-h-screen p-4">
-    <div class="w-full max-w-lg card p-6 md:p-10">
-      <div class="text-center mb-8">
-        <img src="images/BI_Logo.png" alt="Logo BI" />
-        <h1 class="text-3xl font-bold text-gray-800 mt-4">
+    <div class="w-full max-w-lg p-6 card md:p-10">
+      <div class="mb-8 text-center">
+        <img src="images/BI_Logo.png" alt="Logo BI" class="mx-auto" />
+        <h1 class="mt-4 text-3xl font-bold text-gray-800">
           Pendaftaran Probolinggo Bike Vaganza
         </h1>
-        <p class="text-gray-500 mt-1">Pekan QRIS Nasional 2025</p>
-        <p class="text-gray-500 mt-1 text-sm">
+        <p class="mt-1 text-gray-500">Pekan QRIS Nasional 2025</p>
+        <p class="mt-1 text-sm text-gray-500">
           Gelora Merdeka, Kraksaan, 16 Agustus 2025
         </p>
       </div>
@@ -36,7 +36,7 @@
           <div>
             <label
               for="nama"
-              class="block text-sm font-medium text-gray-600 mb-1"
+              class="block mb-1 text-sm font-medium text-gray-600"
               >Nama Lengkap (Sesuai KTP)</label
             >
             <input
@@ -51,7 +51,7 @@
           <div>
             <label
               for="alamat"
-              class="block text-sm font-medium text-gray-600 mb-1"
+              class="block mb-1 text-sm font-medium text-gray-600"
               >Alamat (Sesuai KTP)</label
             >
             <textarea
@@ -66,7 +66,7 @@
           <div>
             <label
               for="telepon"
-              class="block text-sm font-medium text-gray-600 mb-1"
+              class="block mb-1 text-sm font-medium text-gray-600"
               >No. Telepon (WhatsApp Aktif)</label
             >
             <input
@@ -82,7 +82,7 @@
             <button
               type="submit"
               id="submit-initial-data"
-              class="btn-primary w-full"
+              class="w-full btn-primary"
             >
               Lanjut ke Pembayaran Donasi PMI
             </button>
@@ -101,14 +101,14 @@
           <p class="text-gray-600">Nomor Registrasi Anda adalah:</p>
           <p
             id="nomor-registrasi-display"
-            class="text-4xl font-extrabold text-blue-600 my-2 tracking-widest"
+            class="my-2 text-4xl font-extrabold tracking-widest text-blue-600"
           >
             0000
           </p>
-          <h3 class="font-semibold text-gray-800 mt-4">
+          <h3 class="mt-4 font-semibold text-gray-800">
             Scan QRIS untuk Membayar Biaya Donasi
           </h3>
-          <p class="text-lg text-gray-500 mt-1">
+          <p class="mt-1 text-lg text-gray-500">
             Sebesar
             <strong id="nominal-pembayaran" class="text-3xl text-red-600"
               >Rp 0,-</strong
@@ -125,7 +125,7 @@
           </div>
         </div>
         <div class="mt-6">
-          <button id="btn-lanjut-upload" class="btn-primary w-full">
+          <button id="btn-lanjut-upload" class="w-full btn-primary">
             Lanjut
           </button>
         </div>
@@ -138,7 +138,7 @@
             Unggah Bukti Pembayaran
           </h2>
         </div>
-        <div class="file-input-wrapper mt-4">
+        <div class="mt-4 file-input-wrapper">
           <button class="file-input-button">
             <span id="file-label">Pilih File Bukti Pembayaran</span>
           </button>
@@ -149,21 +149,21 @@
             required
           />
         </div>
-        <p id="file-name" class="text-xs text-gray-500 mt-2 text-center">
+        <p id="file-name" class="mt-2 text-xs text-center text-gray-500">
           Maksimal 2MB (JPG, PNG).
         </p>
 
-        <div class="mt-6 flex flex-col-reverse sm:flex-row gap-3">
+        <div class="flex flex-col-reverse gap-3 mt-6 sm:flex-row">
           <button
             type="button"
             id="btn-kembali"
-            class="btn-secondary w-full sm:w-auto"
+            class="w-full btn-secondary sm:w-auto"
           >
             Kembali
           </button>
           <button
             id="konfirmasi-btn"
-            class="btn-primary w-full sm:w-auto flex-grow"
+            class="flex-grow w-full btn-primary sm:w-auto"
             disabled
           >
             Kirim Bukti & Selesaikan Pendaftaran
@@ -171,10 +171,10 @@
         </div>
       </div>
 
-      <div id="konfirmasi-akhir" class="hidden fade-in text-center">
+      <div id="konfirmasi-akhir" class="hidden text-center fade-in">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-20 w-20 mx-auto text-green-500"
+          class="w-20 h-20 mx-auto text-green-500"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -184,24 +184,24 @@
             clip-rule="evenodd"
           />
         </svg>
-        <h2 class="text-3xl font-bold text-gray-800 mt-4">
+        <h2 class="mt-4 text-3xl font-bold text-gray-800">
           Pendaftaran Berhasil!
         </h2>
         <p class="text-gray-600">Nomor Peserta Undian Anda adalah:</p>
         <p
           id="nomor-registrasi-final"
-          class="text-5xl font-extrabold text-blue-600 my-2 tracking-widest"
+          class="my-2 text-5xl font-extrabold tracking-widest text-blue-600"
         >
           0000
         </p>
-        <p class="text-gray-600 mt-2 max-w-sm mx-auto">
+        <p class="max-w-sm mx-auto mt-2 text-gray-600">
           Terima kasih telah mendaftar!
         </p>
-        <p class="text-gray-600 mt-2 max-w-sm mx-auto">
+        <p class="max-w-sm mx-auto mt-2 text-gray-600">
           Ajak kawanmu untuk meriahkan acara ini dan dapatkan
           <strong>hadiah total 50jt rupiah!</strong>
         </p>
-        <p class="text-gray-600 mt-2 max-w-sm mx-auto">
+        <p class="max-w-sm mx-auto mt-2 text-gray-600">
           Nomor peserta undian dapat ditukarkan H-1 pada tanggal 15 Agustus 2025
           pukul 15.00 - 21.00 di Tenda Registrasi Gelora Merdeka, Kraksaan,
           dengan menunjukkan bukti pembayaran QRIS. Informasi lainnya hubungi
