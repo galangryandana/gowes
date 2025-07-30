@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // --- KONFIGURASI ---
   const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbwifvVM20041Tz7wRUzrbU8kA0-79eXXrSPm12sv2vUOy3-cvW8prMuJrKgIR9Qt-dD/exec";
+    "https://script.google.com/macros/s/AKfycbw7RwCjhLy8dADfOILFN86p9FHQGLmbgEZ5zSpN3CGtdYwWo3khKJDlcm1zMa6T-VQFpw/exec";
   const STORAGE_KEY = "gowesRegistrationData";
 
   // --- Elemen Tampilan ---
