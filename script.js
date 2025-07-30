@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   // --- KONFIGURASI ---
   const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbz4YC7glOuxpvQ8h1eCKFlKHoX_K0kSdv9AmBDzMhjLeLFXbB67b7eEO0ni2gBtqwPJ/exec"; // Ganti dengan URL Apps Script Anda
-  const STORAGE_KEY = "gowesRegistrationData"; // Kunci untuk localStorage
+    "https://script.google.com/macros/s/AKfycbwifvVM20041Tz7wRUzrbU8kA0-79eXXrSPm12sv2vUOy3-cvW8prMuJrKgIR9Qt-dD/exec";
+  const STORAGE_KEY = "gowesRegistrationData";
 
   // --- Elemen Tampilan ---
   const formPendaftaran = document.getElementById("form-pendaftaran");
@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const registrationForm = document.getElementById("registration-form");
   const submitInitialBtn = document.getElementById("submit-initial-data");
   const btnLanjutUpload = document.getElementById("btn-lanjut-upload");
+  const btnEditData = document.getElementById("btn-edit-data"); // Tombol edit baru
   const uploadBuktiInput = document.getElementById("upload-bukti");
   const konfirmasiBtn = document.getElementById("konfirmasi-btn");
   const btnKembali = document.getElementById("btn-kembali");
@@ -42,27 +43,33 @@ document.addEventListener("DOMContentLoaded", function () {
     konfirmasiAkhir.classList.add("hidden");
   }
 
-  // ---- MEKANISME UTAMA: MEMERIKSA LOCALSTORAGE SAAT HALAMAN DIMUAT ----
+  // Memeriksa localStorage saat halaman dimuat
   const savedData = localStorage.getItem(STORAGE_KEY);
   if (savedData) {
     userRegistrationData = JSON.parse(savedData);
-    // Jika data ditemukan, langsung tampilkan halaman pembayaran
     displayPaymentInfo(userRegistrationData.regNumber);
   }
 
-  // Proses pengiriman data awal
+  // Proses pengiriman data awal ATAU pembaruan data
   registrationForm.addEventListener("submit", function (event) {
     event.preventDefault();
     submitInitialBtn.disabled = true;
     submitInitialBtn.innerHTML =
       '<span class="loader"></span>&nbsp; Memproses...';
 
+    const isUpdate = !!userRegistrationData.regNumber; // Cek apakah ini pembaruan
+
     const formData = {
-      action: "register",
+      action: isUpdate ? "update_data" : "register", // Tentukan aksi yang benar
       nama: document.getElementById("nama").value,
       alamat: document.getElementById("alamat").value,
       telepon: document.getElementById("telepon").value,
     };
+
+    // Jika ini pembaruan, tambahkan nomor registrasi ke data yang dikirim
+    if (isUpdate) {
+      formData.regNumber = userRegistrationData.regNumber;
+    }
 
     fetch(SCRIPT_URL, {
       method: "POST",
@@ -71,17 +78,20 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.result === "success") {
-          userRegistrationData.regNumber = data.regNumber;
-          // ---- SIMPAN DATA REGISTRASI KE LOCALSTORAGE ----
+          // Simpan semua data yang relevan ke localStorage
+          userRegistrationData = {
+            regNumber: data.regNumber,
+            nama: formData.nama,
+            alamat: formData.alamat,
+            telepon: formData.telepon,
+          };
           localStorage.setItem(
             STORAGE_KEY,
             JSON.stringify(userRegistrationData)
           );
           displayPaymentInfo(data.regNumber);
         } else {
-          throw new Error(
-            data.message || "Gagal mendapatkan nomor registrasi."
-          );
+          throw new Error(data.message || "Gagal memproses data.");
         }
       })
       .catch((error) => {
@@ -91,6 +101,21 @@ document.addEventListener("DOMContentLoaded", function () {
         submitInitialBtn.disabled = false;
         submitInitialBtn.textContent = "Lanjut ke Pembayaran Donasi PMI";
       });
+  });
+
+  // **** LOGIKA BARU UNTUK TOMBOL EDIT ****
+  btnEditData.addEventListener("click", () => {
+    // Ambil data dari variabel global (yang sudah di-load dari localStorage)
+    const dataToEdit = userRegistrationData;
+    if (dataToEdit) {
+      // Isi kembali form dengan data yang tersimpan
+      document.getElementById("nama").value = dataToEdit.nama || "";
+      document.getElementById("alamat").value = dataToEdit.alamat || "";
+      document.getElementById("telepon").value = dataToEdit.telepon || "";
+    }
+    // Tampilkan kembali form pendaftaran
+    infoPembayaran.classList.add("hidden");
+    formPendaftaran.classList.remove("hidden");
   });
 
   // Navigasi dari halaman info pembayaran ke upload
@@ -153,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
             nomorRegistrasiFinal.textContent = userRegistrationData.regNumber;
             uploadSection.classList.add("hidden");
             konfirmasiAkhir.classList.remove("hidden");
-            // ---- HAPUS DATA DARI LOCALSTORAGE SETELAH SEMUA PROSES SELESAI ----
             localStorage.removeItem(STORAGE_KEY);
           } else {
             throw new Error(data.message || "Gagal mengunggah bukti.");
